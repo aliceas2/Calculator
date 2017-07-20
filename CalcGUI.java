@@ -3,6 +3,8 @@ package calculator;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -10,12 +12,21 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 
-public class CalcGUI {
 
+@SuppressWarnings("serial")
+public class CalcGUI extends JFrame implements ActionListener {
+	
 	private JFrame frame;
-	private JTextField textField;
+	private JTextArea text;
+	private JButton but[], butAdd, butMinus, butMultiply, butDivide,
+    butEquals, butCancel, butSquareRoot, butSquare, butOneDevidedBy,
+    butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butPlot, butRightParen, butLeftParen,
+    butArea, butSolve, butX;
+	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
+            "7", "8", "9" };
+	
+	protected Calculator calc;
 
 	/**
 	 * Launch the application.
@@ -40,14 +51,14 @@ public class CalcGUI {
 		initialize();
 
 		//initialize controller
-		//Controller calcControl = new Controller();
+		calc = new Calculator();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * addActionListeners
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -57,116 +68,75 @@ public class CalcGUI {
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
-		JButton button_1 = new JButton("1");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		but = new JButton[10];
+        for (int i = 0; i < 10; i++) {
+            but[i] = new JButton(String.valueOf(i));
+        }
 		
-		JButton button_2 = new JButton("2");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+        for (int i = 0; i < 10; i++) {
+            panel.add(but[i]);
+            but[i].addActionListener(this);
+        }
 		
-		JButton button_3 = new JButton("3");
+		butCos = new JButton("cos");
+		butCos.addActionListener(this);
 		
-		JButton button_4 = new JButton("4");
+		butPeriod = new JButton(".");
+		butPeriod.addActionListener(this);
 		
-		JButton button_5 = new JButton("5");
+		butEquals = new JButton("=");
+		butEquals.addActionListener(this);
 		
-		JButton button_6 = new JButton("6");
+		butSin = new JButton("sin");
+		butSin.addActionListener(this);
 		
-		JButton button_7 = new JButton("7");
+		butTan = new JButton("tan");
+		butTan.addActionListener(this);
 		
-		JButton button_8 = new JButton("8");
+		butFactorial = new JButton("!");
+		butFactorial.addActionListener(this);
 		
-		JButton button_9 = new JButton("9");
-		button_9.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		butCarrot = new JButton("^");
+		butCarrot.addActionListener(this);
 		
-		JButton button_0 = new JButton("0");
+		butAdd = new JButton("+");
+		butAdd.addActionListener(this);
 		
-		JButton button_cos = new JButton("cos");
-		button_cos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		butDivide = new JButton("/");
+		butDivide.addActionListener(this);
 		
-		JButton button_period = new JButton(".");
+		butMultiply = new JButton("*");
+		butMultiply.addActionListener(this);
 		
-		JButton button_equals = new JButton("=");
-		button_equals.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		butMinus = new JButton("-");
+		butMinus.addActionListener(this);
 		
-		JButton button_sin = new JButton("sin");
-		button_sin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		butPlot = new JButton("Plot");
+		butPlot.addActionListener(this);
 		
-		JButton button_tan = new JButton("tan");
+		butRightParen = new JButton(")");
+		butRightParen.addActionListener(this);
 		
-		JButton button_factorial = new JButton("!");
+		butLeftParen = new JButton("(");
+		butLeftParen.addActionListener(this);
 		
-		JButton button_carrot = new JButton("^");
-		button_carrot.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button_add = new JButton("+");
-		button_add.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button_divide = new JButton("/");
-		
-		JButton button_multiply = new JButton("*");
-		button_multiply.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button_minus = new JButton("-");
-		
-		JButton button_plot = new JButton("Plot");
-		button_plot.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button_rightParen = new JButton(")");
-		button_rightParen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		
-		JButton button_leftParen = new JButton("(");
-		
-		textField = new JTextField();
-		textField.setColumns(10);
+		text = new JTextArea();
+		text.setColumns(10);
 		
 		JPanel panel_1 = new JPanel();
 		
-		JButton button_area = new JButton("Area");
-		button_area.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		butArea = new JButton("Area");
+		butArea.addActionListener(this);
 		
-		JButton button_solve = new JButton("Solve");
+		butSolve = new JButton("Solve");
+		butSolve.addActionListener(this);
 		
-		JButton button_x = new JButton("x");
-		button_x.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		butX = new JButton("x");
+		butX.addActionListener(this);
+		
+		/*
+		 * Add Groups
+		 */
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -178,72 +148,72 @@ public class CalcGUI {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(button_plot, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+											.addComponent(butPlot, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_add, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+											.addComponent(butAdd, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_minus, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+											.addComponent(butMinus, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(button_4, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+											.addComponent(but[4], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_5, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+											.addComponent(but[5], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-												.addComponent(button_solve, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-												.addComponent(button_area, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
+												.addComponent(butSolve, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+												.addComponent(butArea, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(button_carrot, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(button_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+												.addComponent(butCarrot, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(but[1], Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-												.addComponent(button_x, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-												.addComponent(button_2, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
+												.addComponent(butX, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+												.addComponent(but[2], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
 									.addGap(11))
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(125)
-											.addComponent(button_7, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+											.addComponent(but[7], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_8, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+											.addComponent(but[8], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 										.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-											.addComponent(button_equals, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+											.addComponent(butEquals, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(button_0, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(but[0], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
 									.addGap(10)))
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(button_9, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-										.addComponent(button_period, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+										.addComponent(but[9], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+										.addComponent(butPeriod, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGap(10)
-											.addComponent(button_factorial, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-										.addComponent(button_tan, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
+											.addComponent(butFactorial, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
+										.addComponent(butTan, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(button_6, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+									.addComponent(but[6], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(button_cos, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+									.addComponent(butCos, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(button_multiply, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+									.addComponent(butMultiply, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(button_divide, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
+									.addComponent(butDivide, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(button_leftParen)
+									.addComponent(butLeftParen)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(button_rightParen))
+									.addComponent(butRightParen))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(button_3, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+									.addComponent(but[3], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(button_sin, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))))
+									.addComponent(butSin, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 								.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(textField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))))
+								.addComponent(text, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
@@ -252,51 +222,139 @@ public class CalcGUI {
 					.addContainerGap()
 					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
 					.addGap(18)
-					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+					.addComponent(text, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_multiply)
-						.addComponent(button_minus)
-						.addComponent(button_add)
-						.addComponent(button_plot)
-						.addComponent(button_divide))
+						.addComponent(butMultiply)
+						.addComponent(butMinus)
+						.addComponent(butAdd)
+						.addComponent(butPlot)
+						.addComponent(butDivide))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_carrot)
-						.addComponent(button_rightParen)
-						.addComponent(button_area)
-						.addComponent(button_x)
-						.addComponent(button_leftParen))
+						.addComponent(butCarrot)
+						.addComponent(butRightParen)
+						.addComponent(butArea)
+						.addComponent(butX)
+						.addComponent(butLeftParen))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_3)
-						.addComponent(button_sin)
-						.addComponent(button_2)
-						.addComponent(button_1)
-						.addComponent(button_solve))
+						.addComponent(but[3])
+						.addComponent(butSin)
+						.addComponent(but[2])
+						.addComponent(but[1])
+						.addComponent(butSolve))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_4)
-						.addComponent(button_5)
-						.addComponent(button_6)
-						.addComponent(button_cos))
+						.addComponent(but[4])
+						.addComponent(but[5])
+						.addComponent(but[6])
+						.addComponent(butCos))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button_tan)
-						.addComponent(button_9)
-						.addComponent(button_8)
-						.addComponent(button_7))
+						.addComponent(butTan)
+						.addComponent(but[9])
+						.addComponent(but[8])
+						.addComponent(but[7]))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(button_factorial)
+						.addComponent(butFactorial)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(button_0)
-								.addComponent(button_period)
-								.addComponent(button_equals))))
+								.addComponent(but[0])
+								.addComponent(butPeriod)
+								.addComponent(butEquals))))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
 	}
+	
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        final Object source = e.getSource();
+
+        for (int i = 0; i < 10; i++) {
+            if (source == but[i]) {
+                text.replaceSelection(buttonValue[i]);
+                return;
+            }
+        }
+
+		if (source == butAdd) {
+            writer(calc.calculateBi(Calculator.BiOperatorModes.add, reader()));
+        }
+
+        if (source == butMinus) {
+            writer(calc.calculateBi(Calculator.BiOperatorModes.minus, reader()));
+        }
+
+        if (source == butMultiply) {
+            writer(calc.calculateBi(Calculator.BiOperatorModes.multiply,
+                reader()));
+        }
+
+        if (source == butDivide) {
+            writer(calc
+                .calculateBi(Calculator.BiOperatorModes.divide, reader()));
+        }
+
+        if (source == butSquare) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.square,
+                reader()));
+        }
+
+        if (source == butSquareRoot) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.squareRoot,
+                reader()));
+        }
+
+        if (source == butOneDevidedBy) {
+            writer(calc.calculateMono(
+                    Calculator.MonoOperatorModes.oneDevidedBy, reader()));
+        }
+
+        if (source == butCos) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.cos,
+                reader()));
+        }
+
+        if (source == butSin) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.sin,
+                reader()));
+        }
+
+        if (source == butTan) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.tan,
+                reader()));
+        }
+
+        if (source == butEquals) {
+            writer(calc.calculateEqual(reader()));
+        }
+
+        if (source == butCancel) {
+            writer(calc.reset());
+        }
+
+        text.selectAll();
+    }
+
+    public Double reader() {
+        Double num;
+        String str;
+        str = text.getText();
+        num = Double.valueOf(str);
+
+        return num;
+    }
+
+    public void writer(final Double num) {
+        if (Double.isNaN(num)) {
+            text.setText("");
+        } else {
+            text.setText(Double.toString(num));
+        }
+    }
 }

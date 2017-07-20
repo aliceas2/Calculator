@@ -2,7 +2,7 @@ package calculator;
 
 /**
  * Jason Morgan and Alice Stanford
- * CMSC 420
+ * CMSC 495
  * Graphing Calculator
  *
  */
