@@ -2,39 +2,39 @@ package calculator;
 
 public class Calculator {
     public enum BiOperatorModes {
-        normal, add, minus, multiply, divide
+        NORMAL, ADD, MINUS, MULTIPLY, DIVIDE
     }
 
     public enum MonoOperatorModes {
-        square, squareRoot, oneDevidedBy, cos, sin, tan
+        SQUARE, SQUAREROOT, ONEDIVIDEDBY, COS, SIN, TAN
     }
 
     private Double num1, num2;
-    private BiOperatorModes mode = BiOperatorModes.normal;
+    private BiOperatorModes mode = BiOperatorModes.NORMAL;
 
     private Double calculateBiImpl() {
-        if (mode == BiOperatorModes.normal) {
-            return num2;
-        }
-        if (mode == BiOperatorModes.add) {
-            return num1 + num2;
-        }
-        if (mode == BiOperatorModes.minus) {
-            return num1 - num2;
-        }
-        if (mode == BiOperatorModes.multiply) {
-            return num1 * num2;
-        }
-        if (mode == BiOperatorModes.divide) {
-            return num1 / num2;
-        }
-
-        // never reach
-        throw new Error();
+    	switch (mode) {
+    		case NORMAL:
+    			return num2;
+    			
+    		case ADD:
+    			return num1 + num2;
+    			
+    		case MINUS:
+    			return num1 - num2;
+    			
+    		case MULTIPLY:
+    			return num1 * num2;
+    			
+    		case DIVIDE:
+    			return num1 / num2;
+    		// never reach
+    		default: throw new Error();
+    	}
     }
 
     public Double calculateBi(BiOperatorModes newMode, Double num) {
-        if (mode == BiOperatorModes.normal) {
+        if (mode == BiOperatorModes.NORMAL) {
             num2 = 0.0;
             num1 = num;
             mode = newMode;
@@ -48,39 +48,39 @@ public class Calculator {
     }
 
     public Double calculateEqual(Double num) {
-        return calculateBi(BiOperatorModes.normal, num);
+        return calculateBi(BiOperatorModes.NORMAL, num);
     }
 
     public Double reset() {
         num2 = 0.0;
         num1 = 0.0;
-        mode = BiOperatorModes.normal;
+        mode = BiOperatorModes.NORMAL;
 
         return Double.NaN;
     }
 
     public Double calculateMono(MonoOperatorModes newMode, Double num) {
-        if (newMode == MonoOperatorModes.square) {
-            return num * num;
-        }
-        if (newMode == MonoOperatorModes.squareRoot) {
-            return Math.sqrt(num);
-        }
-        if (newMode == MonoOperatorModes.oneDevidedBy) {
-            return 1 / num;
-        }
-        if (newMode == MonoOperatorModes.cos) {
-            return Math.cos(num);
-        }
-        if (newMode == MonoOperatorModes.sin) {
-            return Math.sin(num);
-        }
-        if (newMode == MonoOperatorModes.tan) {
-            return Math.tan(num);
-        }
-
-        // never reach
-        throw new Error();
+    	switch (newMode) {
+    		case SQUARE:
+    			return num * num;
+    			
+    		case SQUAREROOT:
+    			return Math.sqrt(num);
+    			
+    		case ONEDIVIDEDBY:
+    			return 1 / num;
+    			
+    		case COS:
+    			return Math.cos(num);
+    			
+    		case SIN:
+    			return Math.sin(num);
+    			
+    		case TAN:
+    			return Math.tan(num);
+    		// never reach	
+    		default: throw new Error();
+    	}
     }
 
 }
