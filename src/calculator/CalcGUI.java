@@ -22,9 +22,10 @@ public class CalcGUI extends JFrame implements ActionListener {
 	private JButton but[], butAdd, butMinus, butMultiply, butDivide,
     butEquals, butCancel, butSquareRoot, butSquare, butOneDevidedBy,
     butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butPlot, butRightParen, butLeftParen,
-    butArea, butSolve, butX;
+    butArea, butSolve, butRadDeg, butX;
 	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
             "7", "8", "9" };
+	private Boolean degrees = true;
 	
 	protected Calculator calc;
 
@@ -134,6 +135,9 @@ public class CalcGUI extends JFrame implements ActionListener {
 		butX = new JButton("x");
 		butX.addActionListener(this);
 		
+		butRadDeg = new JButton("Rad/Deg");
+		butRadDeg.addActionListener(this);
+		
 		/*
 		 * Add Groups
 		 */
@@ -158,7 +162,7 @@ public class CalcGUI extends JFrame implements ActionListener {
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(but[5], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panel.createSequentialGroup()
-											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)	
 												.addComponent(butSolve, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
 												.addComponent(butArea, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
@@ -316,18 +320,27 @@ public class CalcGUI extends JFrame implements ActionListener {
         }
 
         if (source == butCos) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.COS,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.COS, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.COS, reader()));
+        	}
         }
 
         if (source == butSin) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN, reader()));
+        	}
         }
 
         if (source == butTan) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN, reader()));
+        	}
         }
 
         if (source == butEquals) {
