@@ -22,7 +22,7 @@ public class CalcGUI extends JFrame implements ActionListener {
 	private JButton but[], butAdd, butMinus, butMultiply, butDivide,
     butEquals, butCancel, butSquareRoot, butSquare, butOneDevidedBy,
     butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butPlot, butRightParen, butLeftParen,
-    butArea, butSolve, butX;
+    butArea, butSolve, butX, butRadian;
 	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
             "7", "8", "9" };
 	
@@ -96,6 +96,13 @@ public class CalcGUI extends JFrame implements ActionListener {
 		butFactorial = new JButton("!");
 		butFactorial.addActionListener(this);
 		
+		butSquare = new JButton("^2");
+		butSquare.addActionListener(this);
+		
+		butSquareRoot = new JButton("sqrt");
+		butSquareRoot.addActionListener(this);
+		
+		
 		butCarrot = new JButton("^");
 		butCarrot.addActionListener(this);
 		
@@ -131,6 +138,12 @@ public class CalcGUI extends JFrame implements ActionListener {
 		butSolve = new JButton("Solve");
 		butSolve.addActionListener(this);
 		
+		butRadian = new JButton("Radian/Degree");
+		butRadian.addActionListener(this);
+		
+		butCancel = new JButton("Clear");
+		butCancel.addActionListener(this);
+		
 		butX = new JButton("x");
 		butX.addActionListener(this);
 		
@@ -159,8 +172,11 @@ public class CalcGUI extends JFrame implements ActionListener {
 											.addComponent(but[5], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
 										.addGroup(gl_panel.createSequentialGroup()
 											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+													.addComponent(butSquareRoot, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 												.addComponent(butSolve, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-												.addComponent(butArea, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
+												.addComponent(butArea, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+												.addComponent(butRadian, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+												.addComponent(butCancel, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 												.addComponent(butCarrot, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -243,9 +259,10 @@ public class CalcGUI extends JFrame implements ActionListener {
 						.addComponent(butSin)
 						.addComponent(but[2])
 						.addComponent(but[1])
-						.addComponent(butSolve))
+						.addComponent(butRadian))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(butSquareRoot)
 						.addComponent(but[4])
 						.addComponent(but[5])
 						.addComponent(but[6])
@@ -255,7 +272,8 @@ public class CalcGUI extends JFrame implements ActionListener {
 						.addComponent(butTan)
 						.addComponent(but[9])
 						.addComponent(but[8])
-						.addComponent(but[7]))
+						.addComponent(but[7])
+						.addComponent(butCancel))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addComponent(butFactorial)
@@ -264,7 +282,8 @@ public class CalcGUI extends JFrame implements ActionListener {
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(but[0])
 								.addComponent(butPeriod)
-								.addComponent(butEquals))))
+								.addComponent(butEquals)
+								.addComponent(butSolve))))
 					.addContainerGap())
 		);
 		panel.setLayout(gl_panel);
@@ -299,6 +318,10 @@ public class CalcGUI extends JFrame implements ActionListener {
             writer(calc
                 .calculateBi(Calculator.BiOperatorModes.DIVIDE, reader()));
         }
+        
+        if (source == butCarrot) {
+            writer(calc.calculateBi(Calculator.BiOperatorModes.POWER, reader()));
+        }
 
         if (source == butSquare) {
             writer(calc.calculateMono(Calculator.MonoOperatorModes.SQUARE,
@@ -330,6 +353,11 @@ public class CalcGUI extends JFrame implements ActionListener {
                 reader()));
         }
 
+        if (source == butFactorial) {
+            writer(calc.calculateMono(Calculator.MonoOperatorModes.FACT,
+                reader()));
+        }
+        
         if (source == butEquals) {
             writer(calc.calculateEqual(reader()));
         }
