@@ -2,11 +2,11 @@ package calculator;
 
 public class Calculator {
     public enum BiOperatorModes {
-        NORMAL, ADD, MINUS, MULTIPLY, DIVIDE
+        NORMAL, ADD, MINUS, MULTIPLY, DIVIDE, POWER
     }
 
     public enum MonoOperatorModes {
-        SQUARE, SQUAREROOT, ONEDIVIDEDBY, COS, SIN, TAN
+        SQUARE, SQUAREROOT, ONEDIVIDEDBY, COS, SIN, TAN, FACT
     }
 
     private Double num1, num2;
@@ -28,6 +28,10 @@ public class Calculator {
     			
     		case DIVIDE:
     			return num1 / num2;
+    			
+    		case POWER:
+    			return Math.pow(num1, num2);
+    					
     		// never reach
     		default: throw new Error();
     	}
@@ -78,10 +82,24 @@ public class Calculator {
     			
     		case TAN:
     			return Math.tan(num);
+    			
+    		case FACT:
+    			return factorial(num);
+
     		// never reach	
     		default: throw new Error();
     	}
     }
 
-}
+	private Double factorial(Double num) {
+		if (num == 0) {
+            return (double) 1;
+        }
+        double fact = 1; // this  will be the result
+        for (int i = 1; i <= num; i++) {
+            fact *= i;
+        }
+        return fact;
+	}
 
+}
