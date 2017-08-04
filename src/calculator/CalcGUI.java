@@ -25,6 +25,7 @@ public class CalcGUI extends JFrame implements ActionListener {
     butArea, butSolve, butX, butRadian;
 	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
             "7", "8", "9" };
+	private Boolean degrees = true;
 	
 	protected Calculator calc;
 
@@ -62,7 +63,7 @@ public class CalcGUI extends JFrame implements ActionListener {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 401, 555);
+		frame.setBounds(100, 100, 425, 555);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -138,7 +139,7 @@ public class CalcGUI extends JFrame implements ActionListener {
 		butSolve = new JButton("Solve");
 		butSolve.addActionListener(this);
 		
-		butRadian = new JButton("Radian/Degree");
+		butRadian = new JButton("Radians");
 		butRadian.addActionListener(this);
 		
 		butCancel = new JButton("Clear");
@@ -339,18 +340,27 @@ public class CalcGUI extends JFrame implements ActionListener {
         }
 
         if (source == butCos) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.COS,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.COS, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.COS, reader()));
+        	}
         }
 
         if (source == butSin) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.SIN, reader()));
+        	}
         }
 
         if (source == butTan) {
-            writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN,
-                reader()));
+        	if (degrees) {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN, Math.toRadians(reader())));
+        	} else {
+        		writer(calc.calculateMono(Calculator.MonoOperatorModes.TAN, reader()));
+        	}
         }
 
         if (source == butFactorial) {
@@ -364,6 +374,21 @@ public class CalcGUI extends JFrame implements ActionListener {
 
         if (source == butCancel) {
             writer(calc.reset());
+        }
+        
+        if (source == butRadian) {
+        	if (degrees) {
+        		degrees = false;
+        		butRadian.setText("Degrees");
+        	} else {
+        		degrees = true;
+        		butRadian.setText("Radians");
+        	}
+        	CalcGUI.this.pack();
+        }
+        
+        if (source == butArea) {
+        	new Area();
         }
 
         text.selectAll();
