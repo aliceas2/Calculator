@@ -1,299 +1,809 @@
 package calculator;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-
-import java.awt.BorderLayout;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle;
+import java.awt.CardLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
-
-@SuppressWarnings("serial")
 public class CalcGUI extends JFrame implements ActionListener {
+    
+	private static final long serialVersionUID = 1L;
 	
-	private JFrame frame;
-	private JTextArea text;
-	private JButton but[], butAdd, butMinus, butMultiply, butDivide,
-    butEquals, butCancel, butSquareRoot, butSquare, butOneDevidedBy,
+    private JTextArea text;
+    private JButton but[], butAdd, butMinus, butMultiply, butDivide,
+    butEquals, butSquareRoot, butSquare, butOneDevidedBy,
     butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butPlot, butRightParen, butLeftParen,
     butArea, butSolve, butX, butRadian;
-	private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
+    private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
             "7", "8", "9" };
-	private Boolean degrees = true;
-	
-	protected Calculator calc;
+    private Boolean degrees = true;
+    protected Calculator calc;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CalcGUI window = new CalcGUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public CalcGUI() {
+    	initComponents();
+    	//initialize controller
+    	calc = new Calculator();
+    }
 
-	/**
-	 * Create the application.
-	 */
-	public CalcGUI() {
-		initialize();
-
-		//initialize controller
-		calc = new Calculator();
-		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
-	}
-
-	/**
-	 * Initialize the contents of the frame.
+    /**
+     * Initialize the contents of the frame.
 	 * addActionListeners
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 425, 555);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		
-		but = new JButton[10];
+     */                         
+    private void initComponents() {
+    	
+    	but = new JButton[10];
         for (int i = 0; i < 10; i++) {
             but[i] = new JButton(String.valueOf(i));
         }
-		
+        
         for (int i = 0; i < 10; i++) {
-            panel.add(but[i]);
             but[i].addActionListener(this);
         }
-		
-		butCos = new JButton("cos");
-		butCos.addActionListener(this);
-		
-		butPeriod = new JButton(".");
-		butPeriod.addActionListener(this);
-		
-		butEquals = new JButton("=");
-		butEquals.addActionListener(this);
-		
-		butSin = new JButton("sin");
-		butSin.addActionListener(this);
-		
-		butTan = new JButton("tan");
-		butTan.addActionListener(this);
-		
-		butFactorial = new JButton("!");
-		butFactorial.addActionListener(this);
-		
-		butSquare = new JButton("^2");
-		butSquare.addActionListener(this);
-		
-		butSquareRoot = new JButton("sqrt");
-		butSquareRoot.addActionListener(this);
-		
-		
-		butCarrot = new JButton("^");
-		butCarrot.addActionListener(this);
-		
-		butAdd = new JButton("+");
-		butAdd.addActionListener(this);
-		
-		butDivide = new JButton("/");
-		butDivide.addActionListener(this);
-		
-		butMultiply = new JButton("*");
-		butMultiply.addActionListener(this);
-		
-		butMinus = new JButton("-");
-		butMinus.addActionListener(this);
-		
-		butPlot = new JButton("Plot");
-		butPlot.addActionListener(this);
-		
-		butRightParen = new JButton(")");
-		butRightParen.addActionListener(this);
-		
-		butLeftParen = new JButton("(");
-		butLeftParen.addActionListener(this);
-		
-		text = new JTextArea();
-		text.setColumns(10);
-		
-		JPanel panel_1 = new JPanel();
-		
-		butArea = new JButton("Area");
-		butArea.addActionListener(this);
-		
-		butSolve = new JButton("Solve");
-		butSolve.addActionListener(this);
-		
-		butRadian = new JButton("Radians");
-		butRadian.addActionListener(this);
-		
-		butCancel = new JButton("Clear");
-		butCancel.addActionListener(this);
-		
-		butX = new JButton("x");
-		butX.addActionListener(this);
-		
-		/*
-		 * Add Groups
-		 */
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(5)
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(butPlot, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(butAdd, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(butMinus, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addComponent(but[4], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(but[5], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
-													.addComponent(butSquareRoot, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-												.addComponent(butSolve, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-												.addComponent(butArea, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-												.addComponent(butRadian, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-												.addComponent(butCancel, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE))
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-												.addComponent(butCarrot, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(but[1], Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-												.addComponent(butX, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-												.addComponent(but[2], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))))
-									.addGap(11))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(125)
-											.addComponent(but[7], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(but[8], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-										.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-											.addComponent(butEquals, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(but[0], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
-									.addGap(10)))
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addComponent(but[9], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-										.addComponent(butPeriod, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel.createSequentialGroup()
-											.addGap(10)
-											.addComponent(butFactorial, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-										.addComponent(butTan, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(but[6], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(butCos, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(butMultiply, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(butDivide, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(butLeftParen)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(butRightParen))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(but[3], GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(butSin, GroupLayout.PREFERRED_SIZE, 59, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(panel_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(text, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE))))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(text, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(butMultiply)
-						.addComponent(butMinus)
-						.addComponent(butAdd)
-						.addComponent(butPlot)
-						.addComponent(butDivide))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(butCarrot)
-						.addComponent(butRightParen)
-						.addComponent(butArea)
-						.addComponent(butX)
-						.addComponent(butLeftParen))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(but[3])
-						.addComponent(butSin)
-						.addComponent(but[2])
-						.addComponent(but[1])
-						.addComponent(butRadian))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(butSquareRoot)
-						.addComponent(but[4])
-						.addComponent(but[5])
-						.addComponent(but[6])
-						.addComponent(butCos))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(butTan)
-						.addComponent(but[9])
-						.addComponent(but[8])
-						.addComponent(but[7])
-						.addComponent(butCancel))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(butFactorial)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(but[0])
-								.addComponent(butPeriod)
-								.addComponent(butEquals)
-								.addComponent(butSolve))))
-					.addContainerGap())
-		);
-		panel.setLayout(gl_panel);
-	}
-	
 
-    @Override
+        buttonGroup1 = new ButtonGroup();
+        displayPanel = new JPanel();
+        blankPanel = new JPanel();
+        areaPanels = new JPanel();
+        circleRBut = new JRadioButton("Circle");
+        rectangleRBut = new JRadioButton("Rectangle");
+        triangleRBut = new JRadioButton("Triangle");
+        chooseLabel = new JLabel("Choose");
+        circlePanel = new JPanel();
+        circleLabel = new JLabel("Enter Circle Dimensions");
+        radiusLabel = new JLabel("Radius:");
+        diameterLabel = new JLabel("Diameter:");
+        circumLabel = new JLabel("Circumference:");
+        radius = new JTextField();
+        diameter = new JTextField();
+        circumference = new JTextField();
+        circleArea = new JTextField();
+        circleAreaLabel = new JLabel("Area:");
+        rectanglePanel = new JPanel();
+        rectangleLabel = new JLabel("Enter Rectangle Dimensions");
+        sideALabel = new JLabel("Side A:");
+        sideBLabel = new JLabel("Side B:");
+        diagLabel = new JLabel("Diagonal:");
+        sideA = new JTextField();
+        sideB = new JTextField();
+        diagonal = new JTextField();
+        rectangleArea = new JTextField();
+        rectAreaLabel = new JLabel("Area:");
+        perimeter = new JTextField();
+        perimeterLabel = new JLabel("Perimeter:");
+        trianglePanel = new JPanel();
+        triangleLabel = new JLabel("Enter Triangle Dimensions");
+        baseLabel = new JLabel("Base:");
+        heightLabel = new JLabel("Height:");
+        base = new JTextField();
+        height = new JTextField();  
+        triangleArea = new JTextField();
+        triAreaLabel = new JLabel("Area:");
+        graphPanel = new JPanel();
+        buttonPanel = new JPanel();
+        jScrollPane1 = new JScrollPane();
+        text = new JTextArea();
+        
+        beginArea = new JButton("Begin");
+        beginArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                beginAreaActionPerformed(evt);
+            }
+        });
+        
+        calcCircle = new JButton("Calculate");
+        calcCircle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcCircleActionPerformed(evt);
+            }
+        });
+        
+        calcRectangle = new JButton("Calculate");
+        calcRectangle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcRectangleActionPerformed(evt);
+            }
+        });
+        
+        calcTriangle = new JButton("Calculate");
+        calcTriangle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcTriangleActionPerformed(evt);
+            }
+        });
+        
+        butPlot = new JButton("Plot");
+        butPlot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butPlotActionPerformed(evt);
+            }
+        });
+        
+        butArea = new JButton("Area");
+        butArea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	butAreaActionPerformed(evt);
+            }
+        });
+        
+        butRadian = new JButton("Radians");
+        butRadian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butRadianActionPerformed(evt);
+            }
+        });
+        
+        butSquareRoot = new JButton("Sqrt");
+        butSquareRoot.addActionListener(this);
+        
+        butClear = new JButton("Clear");
+        butClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butClearActionPerformed(evt);
+            }
+        });
+        
+        butSolve = new JButton("Solve");
+        butSolve.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butSolveActionPerformed(evt);
+            }
+        });
+        
+        butAdd = new JButton("+");
+        butAdd.addActionListener(this);
+        
+        butCarrot = new JButton("^");
+        butCarrot.addActionListener(this);
+        
+        butEquals = new JButton("=");
+        butEquals.addActionListener(this);
+        
+        butMinus = new JButton("-");
+        butMinus.addActionListener(this);
+        
+        butX = new JButton("X");
+        butX.addActionListener(this);
+        
+        butMultiply = new JButton("*");
+        butMultiply.addActionListener(this);
+        
+        butLeftParen = new JButton("(");
+        butLeftParen.addActionListener(this);
+        
+        butPeriod = new JButton(".");
+        butPeriod.addActionListener(this);
+        
+        butDivide = new JButton("/");
+        butDivide.addActionListener(this);
+        
+        butRightParen = new JButton(")");
+        butRightParen.addActionListener(this);
+        
+        butSin = new JButton("Sin");
+        butSin.addActionListener(this);
+        
+        butCos = new JButton("Cos");
+        butCos.addActionListener(this);
+        
+        butTan = new JButton("Tan");
+        butTan.addActionListener(this);
+        
+        butFactorial = new JButton("!");
+        butFactorial.addActionListener(this);
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        displayPanel.setLayout(new java.awt.CardLayout());
+        GroupLayout blankPanelLayout = new GroupLayout(blankPanel);
+        blankPanel.setLayout(blankPanelLayout);
+        blankPanelLayout.setHorizontalGroup(
+            blankPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+        blankPanelLayout.setVerticalGroup(
+            blankPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+
+        displayPanel.add(blankPanel, "blankPanel");
+        blankPanel.getAccessibleContext().setAccessibleName("");
+        circleRBut.setSelected(true);
+        buttonGroup1.add(circleRBut);
+        buttonGroup1.add(rectangleRBut);
+        buttonGroup1.add(triangleRBut);
+        chooseLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        GroupLayout areaPanelsLayout = new GroupLayout(areaPanels);
+        areaPanels.setLayout(areaPanelsLayout);
+        areaPanelsLayout.setHorizontalGroup(
+            areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(areaPanelsLayout.createSequentialGroup()
+                .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(beginArea)
+                    .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(areaPanelsLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                .addComponent(circleRBut)
+                                .addComponent(rectangleRBut)
+                                .addComponent(triangleRBut)))
+                        .addGroup(areaPanelsLayout.createSequentialGroup()
+                            .addGap(183, 183, 183)
+                            .addComponent(chooseLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(184, Short.MAX_VALUE))
+        );
+        areaPanelsLayout.setVerticalGroup(
+            areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(areaPanelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chooseLabel)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(circleRBut)
+                .addGap(18, 18, 18)
+                .addComponent(rectangleRBut)
+                .addGap(18, 18, 18)
+                .addComponent(triangleRBut)
+                .addGap(46, 46, 46)
+                .addComponent(beginArea)
+                .addContainerGap())
+        );
+
+        displayPanel.add(areaPanels, "areaPanels");
+        circleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        circleAreaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        GroupLayout circlePanelLayout = new GroupLayout(circlePanel);
+        circlePanel.setLayout(circlePanelLayout);
+        circlePanelLayout.setHorizontalGroup(
+            circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(circlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(radiusLabel)
+                    .addComponent(diameterLabel)
+                    .addComponent(circumLabel))
+                .addGap(27, 27, 27)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(diameter, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(circumference)
+                    .addComponent(radius))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, circlePanelLayout.createSequentialGroup()
+                        .addComponent(circleArea, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(GroupLayout.Alignment.TRAILING, circlePanelLayout.createSequentialGroup()
+                        .addComponent(circleAreaLabel)
+                        .addGap(68, 68, 68))))
+            .addGroup(circlePanelLayout.createSequentialGroup()
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(circlePanelLayout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(calcCircle))
+                    .addGroup(circlePanelLayout.createSequentialGroup()
+                        .addGap(148, 148, 148)
+                        .addComponent(circleLabel)))
+                .addContainerGap(146, Short.MAX_VALUE))
+        );
+        circlePanelLayout.setVerticalGroup(
+            circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(circlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(circleLabel)
+                .addGap(12, 12, 12)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(radius, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(radiusLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(diameter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(diameterLabel)
+                    .addComponent(circleArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(circumference, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(circumLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addComponent(calcCircle)
+                .addContainerGap())
+            .addGroup(circlePanelLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(circleAreaLabel)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        displayPanel.add(circlePanel, "circlePanel");
+        rectangleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        rectAreaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        GroupLayout rectanglePanelLayout = new GroupLayout(rectanglePanel);
+        rectanglePanel.setLayout(rectanglePanelLayout);
+        rectanglePanelLayout.setHorizontalGroup(
+            rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(rectanglePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(sideALabel)
+                    .addComponent(sideBLabel)
+                    .addComponent(diagLabel)
+                    .addComponent(perimeterLabel))
+                .addGap(27, 27, 27)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sideB, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(diagonal)
+                    .addComponent(sideA)
+                    .addComponent(perimeter))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, rectanglePanelLayout.createSequentialGroup()
+                        .addComponent(rectangleArea, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(GroupLayout.Alignment.TRAILING, rectanglePanelLayout.createSequentialGroup()
+                        .addComponent(rectAreaLabel)
+                        .addGap(68, 68, 68))))
+            .addGroup(rectanglePanelLayout.createSequentialGroup()
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(rectanglePanelLayout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(calcRectangle))
+                    .addGroup(rectanglePanelLayout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(rectangleLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        rectanglePanelLayout.setVerticalGroup(
+            rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(rectanglePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rectangleLabel)
+                .addGap(12, 12, 12)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(sideA, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sideALabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(sideB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sideBLabel)
+                    .addComponent(rectangleArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(diagonal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(diagLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(perimeter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(perimeterLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(calcRectangle)
+                .addContainerGap())
+            .addGroup(rectanglePanelLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(rectAreaLabel)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        displayPanel.add(rectanglePanel, "rectanglePanel");
+        triangleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        triAreaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        GroupLayout trianglePanelLayout = new GroupLayout(trianglePanel);
+        trianglePanel.setLayout(trianglePanelLayout);
+        trianglePanelLayout.setHorizontalGroup(
+            trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(trianglePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(baseLabel)
+                    .addComponent(heightLabel))
+                .addGap(76, 76, 76)
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                    .addComponent(height, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(base))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(GroupLayout.Alignment.TRAILING, trianglePanelLayout.createSequentialGroup()
+                        .addComponent(triangleArea, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25))
+                    .addGroup(GroupLayout.Alignment.TRAILING, trianglePanelLayout.createSequentialGroup()
+                        .addComponent(triAreaLabel)
+                        .addGap(68, 68, 68))))
+            .addGroup(trianglePanelLayout.createSequentialGroup()
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(trianglePanelLayout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(calcTriangle))
+                    .addGroup(trianglePanelLayout.createSequentialGroup()
+                        .addGap(136, 136, 136)
+                        .addComponent(triangleLabel, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        trianglePanelLayout.setVerticalGroup(
+            trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(trianglePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(triangleLabel)
+                .addGap(12, 12, 12)
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(base, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(baseLabel))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(height, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heightLabel)
+                    .addComponent(triangleArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addComponent(calcTriangle)
+                .addContainerGap())
+            .addGroup(trianglePanelLayout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(triAreaLabel)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        displayPanel.add(trianglePanel, "trianglePanel");
+
+        GroupLayout graphPanelLayout = new GroupLayout(graphPanel);
+        graphPanel.setLayout(graphPanelLayout);
+        graphPanelLayout.setHorizontalGroup(
+            graphPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 445, Short.MAX_VALUE)
+        );
+        graphPanelLayout.setVerticalGroup(
+            graphPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGap(0, 230, Short.MAX_VALUE)
+        );
+
+        displayPanel.add(graphPanel, "graphPanel");
+
+        text.setColumns(20);
+        text.setRows(5);
+        jScrollPane1.setViewportView(text);
+
+        butRadian.setPreferredSize(new java.awt.Dimension(75, 29));
+        butClear.setPreferredSize(new java.awt.Dimension(75, 29));
+        butSolve.setPreferredSize(new java.awt.Dimension(75, 29));
+        butAdd.setPreferredSize(new java.awt.Dimension(50, 29));
+        butCarrot.setPreferredSize(new java.awt.Dimension(50, 29));
+        but[1].setPreferredSize(new java.awt.Dimension(50, 29));
+        but[4].setPreferredSize(new java.awt.Dimension(50, 29));
+        but[7].setPreferredSize(new java.awt.Dimension(50, 29));
+        butEquals.setPreferredSize(new java.awt.Dimension(50, 29));   
+        
+        GroupLayout buttonPanelLayout = new GroupLayout(buttonPanel);
+        buttonPanel.setLayout(buttonPanelLayout);
+        buttonPanelLayout.setHorizontalGroup(
+            buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(buttonPanelLayout.createSequentialGroup()
+                        .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(butArea, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                            .addComponent(butRadian, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butSquareRoot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butClear, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butSolve, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butPlot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addGroup(buttonPanelLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(butAdd, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+                            .addGroup(GroupLayout.Alignment.TRAILING, buttonPanelLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                    .addComponent(butCarrot, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(but[1], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(but[7], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(but[4], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(butEquals, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(but[5], GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(but[2], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(butX, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(butMinus, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
+                            .addComponent(but[8], GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(but[0], GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(butLeftParen, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(but[3], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(but[6], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(but[9], GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(butPeriod, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(butMultiply, GroupLayout.Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                            .addComponent(butTan, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butCos, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butSin, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butRightParen, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butFactorial, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(butDivide, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        buttonPanelLayout.setVerticalGroup(
+            buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(buttonPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butPlot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butMinus)
+                    .addComponent(butMultiply)
+                    .addComponent(butDivide))
+                .addGap(18, 18, 18)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butArea)
+                    .addComponent(butCarrot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butX)
+                    .addComponent(butLeftParen)
+                    .addComponent(butRightParen))
+                .addGap(18, 18, 18)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butRadian, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[1], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[2])
+                    .addComponent(but[3])
+                    .addComponent(butSin))
+                .addGap(18, 18, 18)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butSquareRoot)
+                    .addComponent(but[4], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[5])
+                    .addComponent(but[6])
+                    .addComponent(butCos))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butClear, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[7], GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[8])
+                    .addComponent(but[9])
+                    .addComponent(butTan))
+                .addGap(18, 18, 18)
+                .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(butSolve, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(butEquals, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                    .addComponent(but[0])
+                    .addComponent(butPeriod)
+                    .addComponent(butFactorial))
+                .addContainerGap())
+        );
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(displayPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(displayPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buttonPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void beginAreaActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        if (circleRBut.isSelected()) {
+            CardLayout card = (CardLayout)displayPanel.getLayout();
+            card.show(displayPanel, "circlePanel");
+        } else if (rectangleRBut.isSelected()) {
+            CardLayout card = (CardLayout)displayPanel.getLayout();
+            card.show(displayPanel, "rectanglePanel");
+        } else if (triangleRBut.isSelected()) {
+            CardLayout card = (CardLayout)displayPanel.getLayout();
+            card.show(displayPanel, "trianglePanel");
+        }
+    }                                         
+
+    private void calcTriangleActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    	DecimalFormat df = new DecimalFormat("0.0000");
+    	Area area = new Area(trianglePanel);
+    	Double[] data = new Double[4];
+    	String str;
+    	
+    	for(int i = 0; i < 4; i++) {
+    		data[i] = null;
+    	}
+        
+        str = base.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[0] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(trianglePanel, "Base: \n Please Enter Positive Numbers ONLY");
+        	}
+        }       	
+        if(data[0] == null || data[0] < 0) {
+        	data[0] = 0.0;
+        }
+        
+        str = height.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[1] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(trianglePanel, "Height: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[1] == null || data[1] < 0) {
+        	data[1] = 0.0;
+        }
+        
+        data = area.calculateTriangle(data);
+        base.setText(df.format(Double.valueOf(data[0])));
+        height.setText(df.format(Double.valueOf(data[1])));
+    }
+
+    private void calcRectangleActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    	DecimalFormat df = new DecimalFormat("0.0000");
+    	Area area = new Area(rectanglePanel);
+    	Double[] data = new Double[5];
+    	String str;
+    	
+    	for(int i = 0; i < 5; i++) {
+    		data[i] = null;
+    	}
+        
+        str = sideA.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[0] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(rectanglePanel, "Side A: \n Please Enter Positive Numbers ONLY");
+        	}
+        }       	
+        if(data[0] == null || data[0] < 0) {
+        	data[0] = 0.0;
+        }
+        
+        str = sideB.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[1] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(rectanglePanel, "Side B: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[1] == null || data[1] < 0) {
+        	data[1] = 0.0;
+        }
+        
+        str = diagonal.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[2] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(rectanglePanel, "Diagonal: \n Please Enter Positive Numbers ONLY"); ;
+        	}
+        }
+        if(data[2] == null || data[2] < 0) {
+        	data[2] = 0.0;
+        }
+        
+        str = perimeter.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[3] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(rectanglePanel, "Perimeter: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[3] == null || data[3] < 0) {
+        	data[3] = 0.0;
+        }
+        
+        str = rectangleArea.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[4] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(rectanglePanel, "Area: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[4] == null || data[4] < 0) {
+        	data[4] = 0.0;
+        }
+        
+        data = area.calculateRectangle(data);
+        sideA.setText(df.format(Double.valueOf(data[0])));
+        sideB.setText(df.format(Double.valueOf(data[1])));
+        diagonal.setText(df.format(Double.valueOf(data[2])));
+        perimeter.setText(df.format(Double.valueOf(data[3])));
+        rectangleArea.setText(df.format(Double.valueOf(data[4])));
+    }                                             
+
+    private void calcCircleActionPerformed(java.awt.event.ActionEvent evt) { 
+    	DecimalFormat df = new DecimalFormat("0.0000");
+    	Area area = new Area(circlePanel);
+    	Double[] data = new Double[4];
+    	String str;
+    	
+    	for(int i = 0; i < 4; i++) {
+    		data[i] = null;
+    	}
+        
+        str = radius.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[0] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(circlePanel, "Radius: \n Please Enter Positive Numbers ONLY");
+        	}
+        }       	
+        if(data[0] == null || data[0] < 0) {
+        	data[0] = 0.0;
+        }
+        
+        str = diameter.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[1] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(circlePanel, "Diameter: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[1] == null || data[1] < 0) {
+        	data[1] = 0.0;
+        }
+        
+        str = circumference.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[2] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(circlePanel, "Circumference: \n Please Enter Positive Numbers ONLY"); ;
+        	}
+        }
+        if(data[2] == null || data[2] < 0) {
+        	data[2] = 0.0;
+        }
+        
+        str = circleArea.getText();
+        if(!str.isEmpty()) {
+        	try {
+        		data[3] = Double.valueOf(str);
+        	} catch(NumberFormatException ex) {
+        		JOptionPane.showMessageDialog(circlePanel, "Area: \n Please Enter Positive Numbers ONLY");
+        	}
+        }
+        if(data[3] == null || data[3] < 0) {
+        	data[3] = 0.0;
+        }
+        
+        data = area.calculateCircle(data);
+        radius.setText(df.format(Double.valueOf(data[0])));
+        diameter.setText(df.format(Double.valueOf(data[1])));
+        circumference.setText(df.format(Double.valueOf(data[2])));
+        circleArea.setText(df.format(Double.valueOf(data[3])));
+    }                                          
+
     public void actionPerformed(ActionEvent e) {
-        final Object source = e.getSource();
+    	final Object source = e.getSource();
 
         for (int i = 0; i < 10; i++) {
             if (source == but[i]) {
@@ -371,28 +881,49 @@ public class CalcGUI extends JFrame implements ActionListener {
         if (source == butEquals) {
             writer(calc.calculateEqual(reader()));
         }
-
-        if (source == butCancel) {
-            writer(calc.reset());
-        }
         
-        if (source == butRadian) {
-        	if (degrees) {
-        		degrees = false;
-        		butRadian.setText("Degrees");
-        	} else {
-        		degrees = true;
-        		butRadian.setText("Radians");
-        	}
-        	CalcGUI.this.pack();
-        }
-        
-        if (source == butArea) {
-        	new Area();
-        }
-
         text.selectAll();
+    }                                   
+
+    private void butPlotActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here:
+    }                                       
+
+    private void butAreaActionPerformed(java.awt.event.ActionEvent evt) {
+    	CardLayout card = (CardLayout)displayPanel.getLayout();
+        card.show(displayPanel, "areaPanels");
     }
+    
+    private void butRadianActionPerformed(java.awt.event.ActionEvent evt) {                                          
+        if (degrees) {
+            degrees = false;
+            butRadian.setText("Degrees");
+        } else {
+            degrees = true;
+            butRadian.setText("Radians");
+        }
+        CalcGUI.this.pack();
+    }                                         
+
+    private void butClearActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        writer(calc.reset());
+        radius.setText("");
+        diameter.setText("");
+        circumference.setText("");
+        circleArea.setText("");
+        rectangleArea.setText("");
+        triangleArea.setText("");
+        sideA.setText("");
+        sideB.setText("");
+        diagonal.setText("");
+        perimeter.setText("");
+        base.setText("");
+        height.setText("");
+    }                                        
+
+    private void butSolveActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        writer(calc.calculateEqual(reader()));
+    }                                        
 
     public Double reader() {
         Double num;
@@ -410,4 +941,80 @@ public class CalcGUI extends JFrame implements ActionListener {
             text.setText(Double.toString(num));
         }
     }
+    
+    
+    public static void main(String args[]) {
+        
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(CalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(CalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(CalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new CalcGUI().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration                     
+    private JPanel areaPanels;
+    private JTextField base;
+    private JLabel baseLabel;
+    private JButton beginArea;
+    private JPanel blankPanel;
+    private JButton butClear;
+    private ButtonGroup buttonGroup1;
+    private JPanel buttonPanel;
+    private JButton calcCircle;
+    private JButton calcRectangle;
+    private JButton calcTriangle;
+    private JLabel chooseLabel;
+    private JTextField circleArea;
+    private JLabel circleAreaLabel;
+    private JLabel circleLabel;
+    private JPanel circlePanel;
+    private JRadioButton circleRBut;
+    private JLabel circumLabel;
+    private JTextField circumference;
+    private JLabel diagLabel;
+    private JTextField diagonal;
+    private JTextField diameter;
+    private JLabel diameterLabel;
+    private JPanel displayPanel;
+    private JPanel graphPanel;
+    private JTextField height;
+    private JLabel heightLabel;
+    private JScrollPane jScrollPane1;
+    private JTextField perimeter;
+    private JLabel perimeterLabel;
+    private JTextField radius;
+    private JLabel radiusLabel;
+    private JLabel rectAreaLabel;
+    private JTextField rectangleArea;
+    private JLabel rectangleLabel;
+    private JPanel rectanglePanel;
+    private JRadioButton rectangleRBut;
+    private JTextField sideA;
+    private JLabel sideALabel;
+    private JTextField sideB;
+    private JLabel sideBLabel;
+    private JLabel triAreaLabel;
+    private JTextField triangleArea;
+    private JLabel triangleLabel;
+    private JPanel trianglePanel;
+    private JRadioButton triangleRBut;
+    // End of variables declaration                   
 }
