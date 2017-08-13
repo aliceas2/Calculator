@@ -9,7 +9,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -17,6 +19,9 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
+
+import com.fathzer.soft.javaluator.DoubleEvaluator;
+
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
@@ -28,12 +33,13 @@ public class CalcGUI extends JFrame implements ActionListener {
     private JTextArea text;
     private JButton but[], butAdd, butMinus, butMultiply, butDivide,
     butEquals, butSquareRoot, butSquare, butOneDevidedBy,
-    butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butPlot, butRightParen, butLeftParen,
+    butCos, butSin, butTan, butPeriod, butFactorial, butCarrot, butGraph, butRightParen, butLeftParen,
     butArea, butSolve, butX, butRadian;
     private final String[] buttonValue = { "0", "1", "2", "3", "4", "5", "6",
             "7", "8", "9" };
     private Boolean degrees = true;
     protected Calculator calc;
+    private Graph graph;
 
     public CalcGUI() {
     	initComponents();
@@ -100,50 +106,57 @@ public class CalcGUI extends JFrame implements ActionListener {
         text = new JTextArea();
         
         beginArea = new JButton("Begin");
-        beginArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        beginArea.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 beginAreaActionPerformed(evt);
             }
         });
         
         calcCircle = new JButton("Calculate");
-        calcCircle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        calcCircle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 calcCircleActionPerformed(evt);
             }
         });
         
         calcRectangle = new JButton("Calculate");
-        calcRectangle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        calcRectangle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 calcRectangleActionPerformed(evt);
             }
         });
         
         calcTriangle = new JButton("Calculate");
-        calcTriangle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        calcTriangle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 calcTriangleActionPerformed(evt);
             }
         });
         
-        butPlot = new JButton("Plot");
-        butPlot.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butPlotActionPerformed(evt);
+        butGraph = new JButton("Graph");
+        butGraph.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butGraphActionPerformed(evt);
             }
         });
         
+        butPlot = new JButton("Plot");
+        butPlot.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent evt) {
+        		butPlotActionPerformed(evt);
+        	}
+        });
+        
         butArea = new JButton("Area");
-        butArea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        butArea.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
             	butAreaActionPerformed(evt);
             }
         });
         
         butRadian = new JButton("Radians");
-        butRadian.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        butRadian.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 butRadianActionPerformed(evt);
             }
         });
@@ -152,15 +165,15 @@ public class CalcGUI extends JFrame implements ActionListener {
         butSquareRoot.addActionListener(this);
         
         butClear = new JButton("Clear");
-        butClear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        butClear.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 butClearActionPerformed(evt);
             }
         });
         
         butSolve = new JButton("Solve");
-        butSolve.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        butSolve.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 butSolveActionPerformed(evt);
             }
         });
@@ -206,12 +219,48 @@ public class CalcGUI extends JFrame implements ActionListener {
         
         butFactorial = new JButton("!");
         butFactorial.addActionListener(this);
+        
+        exitBut1 = new JButton("Exit");
+        exitBut1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butExitActionPerformed(evt);
+            }
+        });
+        
+        exitBut2 = new JButton("Exit");
+        exitBut2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butExitActionPerformed(evt);
+            }
+        });
+        
+        exitBut3 = new JButton("Exit");
+        exitBut3.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butExitActionPerformed(evt);
+            }
+        });
+        
+        exitBut4 = new JButton("Exit");
+        exitBut4.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butExitActionPerformed(evt);
+            }
+        });
+        
+        exitBut5 = new JButton("Exit");
+        exitBut5.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                butExitActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        displayPanel.setLayout(new java.awt.CardLayout());
+        displayPanel.setLayout(new CardLayout());
         GroupLayout blankPanelLayout = new GroupLayout(blankPanel);
         blankPanel.setLayout(blankPanelLayout);
+        //Begin layout definitions
         blankPanelLayout.setHorizontalGroup(
             blankPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGap(0, 445, Short.MAX_VALUE)
@@ -234,35 +283,40 @@ public class CalcGUI extends JFrame implements ActionListener {
         areaPanelsLayout.setHorizontalGroup(
             areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(areaPanelsLayout.createSequentialGroup()
-                .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(beginArea)
-                    .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addGroup(areaPanelsLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(circleRBut)
-                                .addComponent(rectangleRBut)
-                                .addComponent(triangleRBut)))
-                        .addGroup(areaPanelsLayout.createSequentialGroup()
-                            .addGap(183, 183, 183)
-                            .addComponent(chooseLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(areaPanelsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                            .addComponent(circleRBut)
+                            .addComponent(rectangleRBut)
+                            .addComponent(triangleRBut)))
+                    .addGroup(areaPanelsLayout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(chooseLabel, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE))
+                    .addGroup(areaPanelsLayout.createSequentialGroup()
+                        .addGap(142, 142, 142)
+                        .addComponent(beginArea)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exitBut1)))
+                .addContainerGap(144, Short.MAX_VALUE))
         );
         areaPanelsLayout.setVerticalGroup(
-            areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(areaPanelsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(chooseLabel)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                .addComponent(circleRBut)
-                .addGap(18, 18, 18)
-                .addComponent(rectangleRBut)
-                .addGap(18, 18, 18)
-                .addComponent(triangleRBut)
-                .addGap(46, 46, 46)
-                .addComponent(beginArea)
-                .addContainerGap())
-        );
+                areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addGroup(areaPanelsLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(chooseLabel)
+                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                    .addComponent(circleRBut)
+                    .addGap(18, 18, 18)
+                    .addComponent(rectangleRBut)
+                    .addGap(18, 18, 18)
+                    .addComponent(triangleRBut)
+                    .addGap(46, 46, 46)
+                    .addGroup(areaPanelsLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                        .addComponent(beginArea)
+                        .addComponent(exitBut1))
+                    .addContainerGap())
+            );
 
         displayPanel.add(areaPanels, "areaPanels");
         circleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -272,6 +326,10 @@ public class CalcGUI extends JFrame implements ActionListener {
         circlePanel.setLayout(circlePanelLayout);
         circlePanelLayout.setHorizontalGroup(
             circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(circlePanelLayout.createSequentialGroup()
+                .addGap(148, 148, 148)
+                .addComponent(circleLabel)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(circlePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -292,14 +350,11 @@ public class CalcGUI extends JFrame implements ActionListener {
                         .addComponent(circleAreaLabel)
                         .addGap(68, 68, 68))))
             .addGroup(circlePanelLayout.createSequentialGroup()
-                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(circlePanelLayout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(calcCircle))
-                    .addGroup(circlePanelLayout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(circleLabel)))
-                .addContainerGap(146, Short.MAX_VALUE))
+                .addGap(133, 133, 133)
+                .addComponent(calcCircle)
+                .addGap(18, 18, 18)
+                .addComponent(exitBut2)
+                .addGap(0, 117, Short.MAX_VALUE))
         );
         circlePanelLayout.setVerticalGroup(
             circlePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -319,8 +374,10 @@ public class CalcGUI extends JFrame implements ActionListener {
                 .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(circumference, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(circumLabel))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addComponent(calcCircle)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addGroup(circlePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(calcCircle)
+                    .addComponent(exitBut2))
                 .addContainerGap())
             .addGroup(circlePanelLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
@@ -360,11 +417,13 @@ public class CalcGUI extends JFrame implements ActionListener {
             .addGroup(rectanglePanelLayout.createSequentialGroup()
                 .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(rectanglePanelLayout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(calcRectangle))
-                    .addGroup(rectanglePanelLayout.createSequentialGroup()
                         .addGap(131, 131, 131)
-                        .addComponent(rectangleLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(rectangleLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE))
+                    .addGroup(rectanglePanelLayout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(calcRectangle)
+                        .addGap(18, 18, 18)
+                        .addComponent(exitBut3)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         rectanglePanelLayout.setVerticalGroup(
@@ -385,12 +444,14 @@ public class CalcGUI extends JFrame implements ActionListener {
                 .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(diagonal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(diagLabel))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
                 .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(perimeter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(perimeterLabel))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(calcRectangle)
+                .addGroup(rectanglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(calcRectangle)
+                    .addComponent(exitBut3))
                 .addContainerGap())
             .addGroup(rectanglePanelLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
@@ -407,6 +468,10 @@ public class CalcGUI extends JFrame implements ActionListener {
         trianglePanelLayout.setHorizontalGroup(
             trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(trianglePanelLayout.createSequentialGroup()
+                .addGap(136, 136, 136)
+                .addComponent(triangleLabel, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(trianglePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(baseLabel)
@@ -415,7 +480,7 @@ public class CalcGUI extends JFrame implements ActionListener {
                 .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
                     .addComponent(height, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                     .addComponent(base))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGap(18, 78, Short.MAX_VALUE)
                 .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(GroupLayout.Alignment.TRAILING, trianglePanelLayout.createSequentialGroup()
                         .addComponent(triangleArea, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
@@ -424,14 +489,11 @@ public class CalcGUI extends JFrame implements ActionListener {
                         .addComponent(triAreaLabel)
                         .addGap(68, 68, 68))))
             .addGroup(trianglePanelLayout.createSequentialGroup()
-                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                    .addGroup(trianglePanelLayout.createSequentialGroup()
-                        .addGap(173, 173, 173)
-                        .addComponent(calcTriangle))
-                    .addGroup(trianglePanelLayout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addComponent(triangleLabel, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(132, 132, 132)
+                .addComponent(calcTriangle)
+                .addGap(18, 18, 18)
+                .addComponent(exitBut4)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         trianglePanelLayout.setVerticalGroup(
             trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -447,8 +509,10 @@ public class CalcGUI extends JFrame implements ActionListener {
                     .addComponent(height, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(heightLabel)
                     .addComponent(triangleArea, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
-                .addComponent(calcTriangle)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addGroup(trianglePanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(calcTriangle)
+                    .addComponent(exitBut4))
                 .addContainerGap())
             .addGroup(trianglePanelLayout.createSequentialGroup()
                 .addGap(55, 55, 55)
@@ -457,33 +521,29 @@ public class CalcGUI extends JFrame implements ActionListener {
         );
 
         displayPanel.add(trianglePanel, "trianglePanel");
-
-        GroupLayout graphPanelLayout = new GroupLayout(graphPanel);
-        graphPanel.setLayout(graphPanelLayout);
-        graphPanelLayout.setHorizontalGroup(
-            graphPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
-        );
-        graphPanelLayout.setVerticalGroup(
-            graphPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGap(0, 230, Short.MAX_VALUE)
-        );
-
+        
+        JPanel graphButs = new JPanel();
+        graphButs.add(butPlot);
+        graphButs.add(exitBut5);
+        graphPanel.setLayout(new BorderLayout());
+        graphPanel.setSize(445, 263);
+        graphPanel.add(graphButs, BorderLayout.PAGE_END);
+        
         displayPanel.add(graphPanel, "graphPanel");
 
         text.setColumns(20);
         text.setRows(5);
         jScrollPane1.setViewportView(text);
 
-        butRadian.setPreferredSize(new java.awt.Dimension(75, 29));
-        butClear.setPreferredSize(new java.awt.Dimension(75, 29));
-        butSolve.setPreferredSize(new java.awt.Dimension(75, 29));
-        butAdd.setPreferredSize(new java.awt.Dimension(50, 29));
-        butCarrot.setPreferredSize(new java.awt.Dimension(50, 29));
-        but[1].setPreferredSize(new java.awt.Dimension(50, 29));
-        but[4].setPreferredSize(new java.awt.Dimension(50, 29));
-        but[7].setPreferredSize(new java.awt.Dimension(50, 29));
-        butEquals.setPreferredSize(new java.awt.Dimension(50, 29));   
+        butRadian.setPreferredSize(new Dimension(75, 29));
+        butClear.setPreferredSize(new Dimension(75, 29));
+        butSolve.setPreferredSize(new Dimension(75, 29));
+        butAdd.setPreferredSize(new Dimension(50, 29));
+        butCarrot.setPreferredSize(new Dimension(50, 29));
+        but[1].setPreferredSize(new Dimension(50, 29));
+        but[4].setPreferredSize(new Dimension(50, 29));
+        but[7].setPreferredSize(new Dimension(50, 29));
+        butEquals.setPreferredSize(new Dimension(50, 29));   
         
         GroupLayout buttonPanelLayout = new GroupLayout(buttonPanel);
         buttonPanel.setLayout(buttonPanelLayout);
@@ -500,7 +560,7 @@ public class CalcGUI extends JFrame implements ActionListener {
                             .addComponent(butSquareRoot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(butClear, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(butSolve, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(butPlot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(butGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(buttonPanelLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
@@ -546,7 +606,7 @@ public class CalcGUI extends JFrame implements ActionListener {
                 .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(buttonPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                    .addComponent(butPlot, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(butGraph, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(butAdd, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                     .addComponent(butMinus)
                     .addComponent(butMultiply)
@@ -607,7 +667,7 @@ public class CalcGUI extends JFrame implements ActionListener {
         pack();
     }// </editor-fold>                        
 
-    private void beginAreaActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void beginAreaActionPerformed(ActionEvent evt) {                                          
         if (circleRBut.isSelected()) {
             CardLayout card = (CardLayout)displayPanel.getLayout();
             card.show(displayPanel, "circlePanel");
@@ -620,7 +680,7 @@ public class CalcGUI extends JFrame implements ActionListener {
         }
     }                                         
 
-    private void calcTriangleActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    private void calcTriangleActionPerformed(ActionEvent evt) {                                             
     	DecimalFormat df = new DecimalFormat("0.0000");
     	Area area = new Area(trianglePanel);
     	Double[] data = new Double[4];
@@ -659,7 +719,7 @@ public class CalcGUI extends JFrame implements ActionListener {
         height.setText(df.format(Double.valueOf(data[1])));
     }
 
-    private void calcRectangleActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void calcRectangleActionPerformed(ActionEvent evt) {                                              
     	DecimalFormat df = new DecimalFormat("0.0000");
     	Area area = new Area(rectanglePanel);
     	Double[] data = new Double[5];
@@ -737,7 +797,7 @@ public class CalcGUI extends JFrame implements ActionListener {
         rectangleArea.setText(df.format(Double.valueOf(data[4])));
     }                                             
 
-    private void calcCircleActionPerformed(java.awt.event.ActionEvent evt) { 
+    private void calcCircleActionPerformed(ActionEvent evt) { 
     	DecimalFormat df = new DecimalFormat("0.0000");
     	Area area = new Area(circlePanel);
     	Double[] data = new Double[4];
@@ -885,16 +945,25 @@ public class CalcGUI extends JFrame implements ActionListener {
         text.selectAll();
     }                                   
 
-    private void butPlotActionPerformed(java.awt.event.ActionEvent evt) {                                        
-        // TODO add your handling code here:
-    }                                       
+    private void butGraphActionPerformed(ActionEvent evt) {
+    	graph = new Graph();
+        graphPanel.add(graph);
+    	CardLayout card = (CardLayout)displayPanel.getLayout();
+        card.show(displayPanel, "graphPanel");
+    }    
+    
+    private void butPlotActionPerformed(ActionEvent evt) {
+    	String expression = text.getText();
+        Double result = new DoubleEvaluator().evaluate(expression);//Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+    	writer(result);
+    }
 
-    private void butAreaActionPerformed(java.awt.event.ActionEvent evt) {
+    private void butAreaActionPerformed(ActionEvent evt) {
     	CardLayout card = (CardLayout)displayPanel.getLayout();
         card.show(displayPanel, "areaPanels");
     }
     
-    private void butRadianActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void butRadianActionPerformed(ActionEvent evt) {                                          
         if (degrees) {
             degrees = false;
             butRadian.setText("Degrees");
@@ -902,10 +971,13 @@ public class CalcGUI extends JFrame implements ActionListener {
             degrees = true;
             butRadian.setText("Radians");
         }
-        CalcGUI.this.pack();
-    }                                         
+    }                                                                             
 
-    private void butClearActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void butSolveActionPerformed(ActionEvent evt) {                                         
+        writer(calc.calculateEqual(reader()));
+    }  
+    
+    private void butClearActionPerformed(ActionEvent evt) {                                         
         writer(calc.reset());
         radius.setText("");
         diameter.setText("");
@@ -919,11 +991,13 @@ public class CalcGUI extends JFrame implements ActionListener {
         perimeter.setText("");
         base.setText("");
         height.setText("");
-    }                                        
-
-    private void butSolveActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        writer(calc.calculateEqual(reader()));
-    }                                        
+    }    
+    
+    private void butExitActionPerformed(ActionEvent evt) {
+    	CardLayout card = (CardLayout)displayPanel.getLayout();
+        card.show(displayPanel, "blankPanel");
+        text.setText("");
+    }
 
     public Double reader() {
         Double num;
@@ -1016,5 +1090,12 @@ public class CalcGUI extends JFrame implements ActionListener {
     private JLabel triangleLabel;
     private JPanel trianglePanel;
     private JRadioButton triangleRBut;
+    private JButton butPlot;
+    private JButton exitBut1;
+    private JButton exitBut2;
+    private JButton exitBut3;
+    private JButton exitBut4;
+    private JButton exitBut5;
+    
     // End of variables declaration                   
 }
