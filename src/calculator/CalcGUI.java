@@ -12,6 +12,9 @@ import javax.swing.LayoutStyle;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -21,8 +24,10 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import com.fathzer.soft.javaluator.DoubleEvaluator;
+import com.fathzer.soft.javaluator.StaticVariableSet;
 
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.awt.event.ActionEvent;
 
@@ -953,9 +958,48 @@ public class CalcGUI extends JFrame implements ActionListener {
     }    
     
     private void butPlotActionPerformed(ActionEvent evt) {
-    	String expression = text.getText();
-        Double result = new DoubleEvaluator().evaluate(expression);//Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
-    	writer(result);
+    	Graphics g = graphPanel.getGraphics();
+    	Graphics2D g2 = (Graphics2D) g;
+    	System.out.println(this.getSize().width);
+    	System.out.println(this.getSize().height);
+    	g2.draw(new Line2D.Double(110, 110, 222.5, 0));
+    	g2.draw(new Line2D.Double(222.5, 0, 332.5, 110));
+    	
+/**    	String expression = text.getText();
+    	
+    	try {
+    		for (int i = 0; i < expression.length(); i++) {
+    			if (expression.charAt(i) == '(' && Character.isDigit(expression.charAt(i-1))) {
+    				expression = new StringBuilder(expression).insert(i, "*").toString();
+    			}
+    		}		
+    		Double result = new DoubleEvaluator().evaluate(expression);//Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+    		writer(result);
+    	} catch(IllegalArgumentException e) {
+    		for (int i = 0; i < expression.length(); i++) {
+    			if (Character.isLetter(expression.charAt(i)) && Character.isDigit(expression.charAt(i-1))) {
+    				expression = new StringBuilder(expression).insert(i, "*").toString();
+    			}
+    		}
+    		// Create the evaluator
+            final DoubleEvaluator eval = new DoubleEvaluator();
+            // Create a new empty variable set
+            final StaticVariableSet<Double> variables = new StaticVariableSet<Double>();
+            double x = 0;
+            final double step = 1;
+            while (x<=10) {
+            	// Set the value of x
+            	variables.set("x", x);
+            	// Evaluate the expression
+            	Double result = eval.evaluate(expression, variables);
+            	// Ouput the result
+            	System.out.println("x="+x+" -> "+expression+" = "+result);
+            	x += step;
+            }
+    	}
+**/
+    	
+		
     }
 
     private void butAreaActionPerformed(ActionEvent evt) {
