@@ -2,34 +2,14 @@ package calculator;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import javax.swing.JPanel;
 
 public class Graph extends JPanel{
 	private static final long serialVersionUID = 1L;
-
-	@Override
-	protected void paintComponent (Graphics g) {
+	
+	public void paintComponent (Graphics g) {
 		super.paintComponent(g);
-		Graphics2D g2 = (Graphics2D) g;
-		
-		 double x1 = 0;
-			double y1 = 263;
-			double x2 = 222;
-			double y2 = 0;
-			
-			g2.draw(new Line2D.Double(x1, y1, x2, y2));
-			
-			x1 = 222;
-			y1 = 0;
-			x2 = 445;
-			y2 = 263;
-			
-			g2.draw(new Line2D.Double(x1, y1, x2, y2));
-		
 		// Set up a Cartesian coordinate system
-
 	    // get the size of the drawing area		
 	    Dimension size = this.getSize();
 
